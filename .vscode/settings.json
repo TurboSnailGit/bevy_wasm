@@ -1,0 +1,17 @@
+// Shared vscode settings goes here.
+{
+    "editor.formatOnSave": true,
+    "files.eol": "\n",
+    "rust-analyzer.rustfmt.extraArgs": [
+        "--config",
+        "group_imports=StdExternalCrate",
+        "--config",
+        "imports_granularity=Module"
+    ],
+    "rust-analyzer.check.command": "clippy",
+    "rust-analyzer.check.workspace": false,
+    "rust-analyzer.rust.analyzerTargetDir": true,
+    "rust-analyzer.linkedProjects": [
+        ".\\bevy_wasm\\Cargo.toml"
+    ],
+}

@@ -63,7 +63,9 @@ fn update_app_state(app_state: &mut AppState) {
         }
     }
 
-    let Some(entity_id) = app_state.entity_id else { return };
+    let Some(entity_id) = app_state.entity_id else {
+        return;
+    };
 
     send_event(&ModMessage::MoveCube {
         entity_id,

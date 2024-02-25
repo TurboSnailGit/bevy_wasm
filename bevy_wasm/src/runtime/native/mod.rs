@@ -86,6 +86,6 @@ impl WasmInstance {
     pub fn update_resource_value<T: SharedResource>(&mut self, bytes: Arc<[u8]>) {
         let state = self.store.data_mut();
 
-        state.shared_resource_values.insert(T::TYPE_UUID, bytes);
+        state.shared_resource_values.insert(T::type_path(), bytes);
     }
 }

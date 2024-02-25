@@ -1,33 +1,38 @@
 //! Access host `Resource`s from inside of a WASM system
 
-use std::{
-    any::{Any, TypeId},
-    collections::HashMap,
-    fmt::Debug,
-    marker::PhantomData,
-    ops::Deref,
-};
+use std::any::{Any, TypeId};
+use std::collections::HashMap;
+use std::fmt::Debug;
+use std::marker::PhantomData;
+use std::ops::Deref;
 
-use bevy_ecs::{prelude::*, system::SystemParam};
-use bevy_reflect::TypeUuid;
-use serde::{de::DeserializeOwned, Serialize};
+use bevy_ecs::prelude::*;
+use bevy_ecs::system::SystemParam;
+use bevy_reflect::TypePath;
+use serde::de::DeserializeOwned;
+use serde::Serialize;
 
 use crate::error;
 
 /// A resource that can be shared from the Host
-pub trait SharedResource: Resource + Default + Serialize + DeserializeOwned + TypeUuid {}
+pub trait SharedResource: Resource + Default + Serialize + DeserializeOwned + TypePath {}
 
-impl<T: Resource + Default + Serialize + DeserializeOwned + TypeUuid> SharedResource for T {}
+impl<T: Resource + Default + Serialize + DeserializeOwned + TypePath> SharedResource for T {}
 
 /// Get the value of a resource from the host
 pub fn get_resource<T: SharedResource>() -> Option<T> {
-    let (uuid_0, uuid_1) = T::TYPE_UUID.as_u64_pair();
+    let type_path = T::type_path();
 
     let mut buffer = [0; 1024];
 
     let len = unsafe {
         // put serialized resource into buffer
-        crate::ffi::get_resource(uuid_0, uuid_1, buffer.as_mut_ptr(), buffer.len())
+        crate::ffi::get_resource(
+            type_path.as_ptr(),
+            type_path.len(),
+            buffer.as_mut_ptr(),
+            buffer.len(),
+        )
     };
 
     if len == 0 {

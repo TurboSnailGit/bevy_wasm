@@ -7,6 +7,6 @@ publish = false
 version = "0.1.0"
 
 [dependencies]
-bevy = "0.10"
-bevy_wasm = {path = "../../../bevy_wasm"}
-simple_protocol = {path = "../simple_protocol"}
+bevy = "0.13"
+bevy_wasm = { path = "../../../bevy_wasm" }
+simple_protocol = { path = "../simple_protocol" }

@@ -1,14 +1,12 @@
 //! Implements loader for a custom asset type.
 
-use bevy::{
-    asset::{AssetLoader, LoadContext, LoadedAsset},
-    reflect::TypeUuid,
-    utils::BoxedFuture,
-};
+use bevy::asset::{Asset, AssetLoader, AsyncReadExt, LoadContext};
+use bevy::reflect::TypePath;
+use bevy::utils::BoxedFuture;
 use serde::Deserialize;
+use thiserror::Error;
 
-#[derive(Debug, Deserialize, TypeUuid)]
-#[uuid = "4e2a45df-246a-4ab8-91ac-c24218d6a79d"]
+#[derive(Debug, Deserialize, Asset, TypePath)]
 pub struct WasmAsset {
     pub bytes: Vec<u8>,
 }
@@ -16,21 +14,29 @@ pub struct WasmAsset {
 #[derive(Default)]
 pub struct WasmAssetLoader;
 
+#[derive(Error, Debug)]
+pub enum WasmAssetLoaderError {}
+
 impl AssetLoader for WasmAssetLoader {
-    fn load<'a>(
-        &'a self,
-        bytes: &'a [u8],
-        load_context: &'a mut LoadContext,
-    ) -> BoxedFuture<'a, Result<(), bevy::asset::Error>> {
-        Box::pin(async move {
-            load_context.set_default_asset(LoadedAsset::new(WasmAsset {
-                bytes: bytes.into(),
-            }));
-            Ok(())
-        })
-    }
+    type Asset = WasmAsset;
+    type Settings = ();
+    type Error = WasmAssetLoaderError;
 
     fn extensions(&self) -> &[&str] {
         &["wasm"]
+    }
+
+    fn load<'a>(
+        &'a self,
+        reader: &'a mut bevy::asset::io::Reader,
+        _settings: &'a Self::Settings,
+        _load_context: &'a mut LoadContext,
+    ) -> BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
+        Box::pin(async move {
+            let mut bytes = Vec::new();
+            reader.read_to_end(&mut bytes).await.unwrap();
+
+            Ok(WasmAsset { bytes })
+        })
     }
 }

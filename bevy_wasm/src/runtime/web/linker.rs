@@ -133,7 +133,9 @@ pub fn build_linker(
                 .unwrap()
                 .shared_resource_values
                 .remove(&uuid);
-            let Some(resource_bytes) = resource_bytes else { return 0 };
+            let Some(resource_bytes) = resource_bytes else {
+                return 0;
+            };
             if resource_bytes.len() > buffer_len as usize {
                 error!("Serialized event is too long");
                 return 0;

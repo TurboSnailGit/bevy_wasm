@@ -5,10 +5,9 @@ use cubes_protocol::{HostMessage, ModMessage, PROTOCOL_VERSION};
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_plugin(WasmPlugin::<HostMessage, ModMessage>::new(PROTOCOL_VERSION))
-        .add_startup_system(insert_mods)
-        .add_startup_system(setup)
-        .add_system(update_cubes_from_mods)
+        .add_plugins(WasmPlugin::<HostMessage, ModMessage>::new(PROTOCOL_VERSION))
+        .add_systems(Startup, (insert_mods, setup))
+        .add_systems(Update, update_cubes_from_mods)
         .run();
 }
 
@@ -29,11 +28,14 @@ fn setup(
 ) {
     // plane
     commands.spawn(PbrBundle {
-        mesh: meshes.add(Mesh::from(shape::Plane {
-            size: 5.0,
-            subdivisions: 0,
+        mesh: meshes.add(Mesh::from(Plane3d {
+            normal: Direction3d::new_unchecked(Vec3 {
+                x: 0.0,
+                y: 1.0,
+                z: 0.0,
+            }),
         })),
-        material: materials.add(Color::rgb(0.3, 0.5, 0.3).into()),
+        material: materials.add(Color::rgb(0.3, 0.5, 0.3)),
         ..default()
     });
     commands.spawn(PointLightBundle {
@@ -61,7 +63,7 @@ fn update_cubes_from_mods(
     mut events_in: EventWriter<HostMessage>, // SEND messages TO mods
     mut query: Query<&mut Transform>,
 ) {
-    for event in events_out.iter() {
+    for event in events_out.read() {
         match event {
             ModMessage::MoveCube { entity_id, x, y, z } => {
                 if let Ok(mut transform) = query.get_mut(Entity::from_raw(*entity_id)) {
@@ -72,8 +74,10 @@ fn update_cubes_from_mods(
                 info!("Spawning cube from mod {:x}!", mod_state);
                 let entity_id = commands
                     .spawn(PbrBundle {
-                        mesh: meshes.add(Mesh::from(shape::Cube { size: 0.5 })),
-                        material: materials.add(Color::rgb(color.0, color.1, color.2).into()),
+                        mesh: meshes.add(Mesh::from(Cuboid {
+                            half_size: Vec3::splat(0.25),
+                        })),
+                        material: materials.add(Color::rgb(color.0, color.1, color.2)),
                         transform: Transform::from_xyz(0.0, 0.5, 0.0),
                         ..default()
                     })

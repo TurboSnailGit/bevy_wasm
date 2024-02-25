@@ -1,22 +1,21 @@
-use bevy::{log::LogPlugin, prelude::*};
+use bevy::log::LogPlugin;
+use bevy::prelude::*;
 use bevy_wasm::prelude::*;
 use shared_resources_protocol::{HostMessage, ModMessage, MyCoolResource, PROTOCOL_VERSION};
 
 fn main() {
     App::new()
-        .add_plugin(LogPlugin::default())
-        .add_plugin(AssetPlugin::default())
-        .add_plugins(MinimalPlugins)
+        .add_plugins((LogPlugin::default(), AssetPlugin::default(), MinimalPlugins))
         .insert_resource(MyCoolResource {
             value: 0,
             string: "Hello from MyCoolResource!".to_string(),
         })
-        .add_plugin(
+        .add_plugins(
             WasmPlugin::<HostMessage, ModMessage>::new(PROTOCOL_VERSION)
                 .share_resource::<MyCoolResource>(),
         )
-        .add_startup_system(insert_mods)
-        .add_system(update_resource)
+        .add_systems(Startup, insert_mods)
+        .add_systems(Update, update_resource)
         .run();
 }
 

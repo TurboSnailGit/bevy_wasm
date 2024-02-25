@@ -92,7 +92,9 @@ unsafe impl Sync for WasmInstance {}
 
 impl WasmInstance {
     pub fn tick(&mut self, events_in: &[Arc<[u8]>]) -> Result<Vec<Box<[u8]>>> {
-        let Some(instance) = self.instance.read().unwrap().clone() else { return Ok(Vec::new()) };
+        let Some(instance) = self.instance.read().unwrap().clone() else {
+            return Ok(Vec::new());
+        };
         for event in events_in.iter() {
             self.mod_state
                 .write()

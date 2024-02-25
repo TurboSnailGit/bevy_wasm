@@ -23,7 +23,6 @@ pub mod time;
 
 /// Convenience re-exports
 pub mod prelude {
-    pub use crate::macros::*;
     pub use crate::{error, info, warn};
     pub use bevy_wasm_shared::prelude::*;
 

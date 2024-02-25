@@ -1,3 +1,4 @@
+use bevy_ecs::event::Event;
 use bevy_wasm_shared::prelude::*;
 use serde::{Deserialize, Serialize};
 
@@ -5,13 +6,13 @@ use serde::{Deserialize, Serialize};
 pub const PROTOCOL_VERSION: Version = version!();
 
 /// A message to be sent Mod -> Game.
-#[derive(Clone, Serialize, Deserialize, Debug)]
+#[derive(Clone, Serialize, Deserialize, Debug, Event)]
 pub enum ModMessage {
     Hello,
 }
 
 /// A message to be sent Game -> Mod.
-#[derive(Clone, Serialize, Deserialize, Debug)]
+#[derive(Clone, Serialize, Deserialize, Debug, Event)]
 pub enum GameMessage {
     HiThere,
 }

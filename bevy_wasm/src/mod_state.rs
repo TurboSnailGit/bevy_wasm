@@ -1,6 +1,7 @@
-use std::{collections::VecDeque, sync::Arc};
+use std::collections::VecDeque;
+use std::sync::Arc;
 
-use bevy::utils::{HashMap, Instant, Uuid};
+use bevy::utils::{HashMap, Instant};
 
 /// Internal mod state
 pub struct ModState {
@@ -17,5 +18,5 @@ pub struct ModState {
     pub events_out: Vec<Box<[u8]>>,
 
     /// Resources that have changed since the last update
-    pub shared_resource_values: HashMap<Uuid, Arc<[u8]>>,
+    pub shared_resource_values: HashMap<&'static str, Arc<[u8]>>,
 }
