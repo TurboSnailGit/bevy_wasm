@@ -227,20 +227,90 @@ pub(crate) fn build_linker(engine: &Engine, protocol_version: Version) -> Result
         },
     )?;
 
+    // https://github.com/WebAssembly/WASI/blob/main/legacy/preview1/docs.md#-random_getbuf-pointeru8-buf_len-size---result-errno
     linker.func_wrap(
         "wasi_snapshot_preview1",
         "random_get",
-        |mut caller: Caller<'_, ModState>, _buffer: i32, _buffer_len: i32| -> i32 {
-            let _mem = match caller.get_export("memory") {
+        |mut caller: Caller<'_, ModState>, buf: i32, buf_len: i32| -> i32 {
+            let memory = match caller.get_export("memory") {
                 Some(Extern::Memory(mem)) => mem,
-                _ => panic!("failed to find mod memory"),
+                _ => panic!("random_get: failed to find host memory"),
             };
 
-            info!("random_get: return ");
+            let Some(buf_slice) = memory
+                .data_mut(&mut caller)
+                .get_mut(buf as u32 as usize..)
+                .and_then(|arr| arr.get_mut(..buf_len as usize))
+            else {
+                error!("random_get: Failed to get data from memory");
+                return 0;
+            };
 
+            // Fill buffer with random data.
+            match getrandom::getrandom(buf_slice) {
+                Ok(_) => 0, // 0 indicates success in WASI.
+                Err(err) => {
+                    error!("random_get: getrandom {err}");
+                    1
+                }
+            }
+        },
+    )?;
+
+    // https://github.com/WebAssembly/WASI/blob/main/legacy/preview1/docs.md#-fd_writefd-fd-iovs-ciovec_array---resultsize-errno
+    // fd : A file descriptor handle.
+    // iovs : List of scatter/gather vectors from which to retrieve data
+    linker.func_wrap(
+        "wasi_snapshot_preview1",
+        "fd_write",
+        |fd: i32, fd_len: i32, iovs: i32, iovs_len: i32| -> i32 {
+            info!("fd_write: fd: {fd}, size {fd_len}. iovs {iovs} size {iovs_len}");
             0
         },
     )?;
+
+    // https://github.com/WebAssembly/WASI/blob/main/legacy/preview1/docs.md#-sched_yield---result-errno
+    // sched_yield() -> Result<(), errno>
+    // Temporarily yield execution of the calling thread. Note: This is similar to sched_yield in POSIX.
+    linker.func_wrap("wasi_snapshot_preview1", "sched_yield", || -> i32 {
+        info!("sched_yield");
+        0
+    })?;
+
+    // https://github.com/WebAssembly/WASI/blob/main/legacy/preview1/docs.md#-environ_getenviron-pointerpointeru8-environ_buf-pointeru8---result-errno
+    //  environ_get(environ: Pointer<Pointer<u8>>, environ_buf: Pointer<u8>) -> Result<(), errno>
+    // Read environment variable data.
+    // The sizes of the buffers should match that returned by environ_sizes_get.
+    // Key/value pairs are expected to be joined with =s, and terminated with \0s.
+    linker.func_wrap(
+        "wasi_snapshot_preview1",
+        "environ_get",
+        |environ: i32, environ_buf: i32| -> i32 {
+            info!("environ_get environ {environ} size {environ_buf}");
+            0
+        },
+    )?;
+
+    // https://github.com/WebAssembly/WASI/blob/main/legacy/preview1/docs.md#-environ_sizes_get---resultsize-size-errno
+    // environ_sizes_get() -> Result<(size, size), errno>
+    // Return environment variable data sizes.
+    linker.func_wrap(
+        "wasi_snapshot_preview1",
+        "environ_sizes_get",
+        |a: i32, b: i32| -> i32 {
+            info!("environ_sizes_get {a} {b}");
+            0
+        },
+    )?;
+
+    // https://github.com/WebAssembly/WASI/blob/main/legacy/preview1/docs.md#-proc_exitrval-exitcode
+    // proc_exit(rval: exitcode)
+    // Terminate the process normally.
+    // An exit code of 0 indicates successful termination of the program.
+    // The meanings of other values is dependent on the environment.
+    linker.func_wrap("wasi_snapshot_preview1", "proc_exit", |rval: i32| {
+        info!("proc_exit {rval}");
+    })?;
 
     linker.func_wrap(
         "__wbindgen_placeholder__",
