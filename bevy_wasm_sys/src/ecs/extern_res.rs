@@ -9,10 +9,9 @@ use std::ops::Deref;
 use bevy_ecs::prelude::*;
 use bevy_ecs::system::SystemParam;
 use bevy_reflect::TypePath;
+use bevy_wasm_sys_core::error;
 use serde::de::DeserializeOwned;
 use serde::Serialize;
-
-use crate::error;
 
 /// A resource that can be shared from the Host
 pub trait SharedResource: Resource + Default + Serialize + DeserializeOwned + TypePath {}

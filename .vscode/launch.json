@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "args": [],
+            "console": "integratedTerminal",
+            "cwd": "G:/Github/turbo_bevy_wasm/examples/simple/simple",
+            "environment": [],
+            "name": "Simple",
+            "preLaunchTask": "build: simple",
+            "program": "${workspaceFolder}/target/debug/simple.exe",
+            "request": "launch",
+            "sourceFileMap": {
+                "/rustc/fe5b13d681f25ee6474be29d748c65adcd91f69e": "/Users/frede/.rustup/toolchains/1.76.0-x86_64-pc-windows-msvc/lib/rustlib/src/rust"
+            },
+            "stopAtEntry": false,
+            "symbolSearchPath": "https://msdl.microsoft.com/download/symbols",
+            "type": "cppvsdbg",
+        },
+    ]
+}

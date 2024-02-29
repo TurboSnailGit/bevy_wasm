@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.13.0
+
+-   Upgraded to Bevy v0.13
+-   Use Cargo make instead of build.rs to build multiple tasks
+    - Changed compilation between wasm32-wasi for native and wasm32-unknown-unknown for web
+- Moved all dependencies versions to workspace
+
 ## 0.10.1
 
 -   Browser support

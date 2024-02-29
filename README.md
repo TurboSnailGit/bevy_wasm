@@ -17,6 +17,32 @@ See [examples/cubes](https://github.com/BrandonDyer64/bevy_wasm/tree/main/exampl
 
 [Changelog](https://github.com/BrandonDyer64/bevy_wasm/blob/main/CHANGELOG.md)
 
+## Examples
+
+To start the examples, you will need those dependencies
+
+```shell
+rustup target add wasm32-unknown-unknown
+rustup target add wasm32-wasi
+cargo install cargo-make
+cargo install wasm-server-runner
+```
+
+Native executable calling a wasm32-wasi plugin
+```shell
+cargo make run-simple
+cargo make run-cubes
+cargo make run-shared-resources
+```
+
+A browser wasm plugin calling a wasm plugin
+```shell
+cargo make run-simple-wasm
+cargo make run-cubes-wasm
+cargo make run-shared-resources-wasm
+```
+
+
 ## Protocol
 
 Our protocol crate defines the two message types for communicating between the game and mods.

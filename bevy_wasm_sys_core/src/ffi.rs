@@ -4,8 +4,6 @@
 
 use std::ffi::c_void;
 
-use bevy_app::App;
-
 #[link(wasm_import_module = "host")]
 extern "C" {
     pub fn store_app(app: *const c_void);
@@ -23,19 +21,4 @@ extern "C" {
         buffer: *const u8,
         buffer_len: usize,
     ) -> usize;
-}
-
-/// This function is called by the host every frame.
-///
-/// # Safety
-///
-/// `app` is assumed to be a valid pointer to an [`App`].
-#[no_mangle]
-pub unsafe extern "C" fn update(app: *mut c_void) {
-    if app.is_null() {
-        return;
-    }
-
-    let app = app as *mut App;
-    (*app).update();
 }

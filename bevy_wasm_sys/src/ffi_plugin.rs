@@ -7,14 +7,14 @@ use bevy_ecs::event::Event;
 use bevy_ecs::prelude::{EventReader, EventWriter};
 use bevy_ecs::system::ResMut;
 use bevy_wasm_shared::prelude::*;
+use bevy_wasm_sys_core::events::{get_next_event, send_event};
+use bevy_wasm_sys_core::{error, info};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 
 use crate::ecs::extern_res::ExternResources;
-use crate::events::{get_next_event, send_event};
 use crate::ffi::store_app;
 use crate::time::Time;
-use crate::{error, info};
 
 /// An object that can be used as a message
 pub trait Message: Send + Sync + Serialize + DeserializeOwned + Event + 'static {}

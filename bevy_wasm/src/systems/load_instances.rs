@@ -1,10 +1,8 @@
 use bevy::prelude::*;
 
-use crate::{
-    components::WasmMod,
-    runtime::{WasmInstance, WasmRuntime},
-    wasm_asset::WasmAsset,
-};
+use crate::components::WasmMod;
+use crate::runtime::{WasmInstance, WasmRuntime};
+use crate::wasm_asset::WasmAsset;
 
 pub fn load_instances(
     mut commands: Commands,
@@ -20,7 +18,7 @@ pub fn load_instances(
                     commands.entity(entity).insert(instance);
                 }
                 Err(e) => {
-                    error!("Could not initialize WASM instance: {}", e);
+                    error!("Could not initialize WASM instance: {:#}", e);
                     commands.entity(entity).despawn();
                 }
             }

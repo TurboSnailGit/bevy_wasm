@@ -1,25 +1,19 @@
-use std::{
-    collections::VecDeque,
-    sync::{Arc, RwLock},
-};
+use std::collections::VecDeque;
+use std::sync::{Arc, RwLock};
 
 use anyhow::Result;
-use bevy::{
-    prelude::{Component, Resource},
-    utils::{HashMap, Instant},
-};
-use js_sys::{
-    Function, Reflect,
-    WebAssembly::{self, Instance},
-};
-use wasm_bindgen::{prelude::Closure, JsCast, JsValue};
-
+use bevy::prelude::{Component, Resource};
+use bevy::utils::{HashMap, Instant};
 use bevy_wasm_shared::version::Version;
+use js_sys::WebAssembly::{self, Instance};
+use js_sys::{Function, Reflect};
+use wasm_bindgen::prelude::Closure;
+use wasm_bindgen::{JsCast, JsValue};
 use web_sys::console;
 
-use crate::{mod_state::ModState, SharedResource};
-
 use self::linker::build_linker;
+use crate::mod_state::ModState;
+use crate::SharedResource;
 
 mod linker;
 
@@ -125,6 +119,6 @@ impl WasmInstance {
             .write()
             .unwrap()
             .shared_resource_values
-            .insert(T::TYPE_UUID, bytes);
+            .insert(T::type_path(), bytes);
     }
 }

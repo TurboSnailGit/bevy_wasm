@@ -1,16 +1,11 @@
 use std::sync::{Arc, RwLock};
 
-use bevy::{
-    prelude::{error, info, warn},
-    utils::Uuid,
-};
+use bevy::prelude::{error, info, warn};
 use bevy_wasm_shared::version::Version;
 use colored::*;
 use js_sys::{Object, Reflect, Uint8Array, WebAssembly};
-use wasm_bindgen::{
-    closure::{IntoWasmClosure, WasmClosure},
-    prelude::{Closure, JsValue},
-};
+use wasm_bindgen::closure::{IntoWasmClosure, WasmClosure};
+use wasm_bindgen::prelude::{Closure, JsValue};
 
 use crate::mod_state::ModState;
 
@@ -123,16 +118,28 @@ pub fn build_linker(
         move || -> u64 { protocol_version.to_u64() }
     });
 
-    link::<dyn FnMut(u64, u64, i32, u32) -> u32>(&host, "get_resource", {
+    link::<dyn FnMut(i32, u32, i32, u32) -> u32>(&host, "get_resource", {
         let mod_state = mod_state.clone();
         let memory = memory.clone();
-        move |uuid_0, uuid_1, buffer_ptr, buffer_len| -> u32 {
-            let uuid = Uuid::from_u64_pair(uuid_0, uuid_1);
+        move |type_path_buffer, type_path_buffer_len, buffer_ptr, buffer_len| -> u32 {
+            let memory_read = memory.read().unwrap();
+            let Some(memory) = memory_read.as_ref() else {
+                return 0;
+            };
+            let utf8_buffer = Uint8Array::new(&memory.buffer())
+                .slice(
+                    type_path_buffer as u32,
+                    type_path_buffer as u32 + type_path_buffer_len,
+                )
+                .to_vec();
+            let type_path = std::str::from_utf8(&utf8_buffer).unwrap();
+
             let resource_bytes = mod_state
                 .write()
                 .unwrap()
                 .shared_resource_values
-                .remove(&uuid);
+                .remove(type_path);
+
             let Some(resource_bytes) = resource_bytes else {
                 return 0;
             };
@@ -141,12 +148,8 @@ pub fn build_linker(
                 return 0;
             }
             let arr = Uint8Array::from(&resource_bytes[..]);
-            if let Some(memory) = memory.read().unwrap().as_ref() {
-                Uint8Array::new(&memory.buffer()).set(&arr, buffer_ptr as u32);
-                resource_bytes.len() as u32
-            } else {
-                0
-            }
+            Uint8Array::new(&memory.buffer()).set(&arr, buffer_ptr as u32);
+            resource_bytes.len() as u32
         }
     });
 
