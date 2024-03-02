@@ -2,11 +2,10 @@
 {
     "tasks": [
         {
+            "command": "make",
             "args": [
-                "--bin",
-                "simple"
+                "build-simple",
             ],
-            "command": "build",
             "label": "build: simple",
             "presentation": {
                 "clear": true,

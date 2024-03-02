@@ -25,7 +25,7 @@ To start the examples, you will need those dependencies
 rustup target add wasm32-unknown-unknown
 rustup target add wasm32-wasi
 cargo install cargo-make
-cargo install wasm-server-runner
+cargo install miniserve
 ```
 
 Native executable calling a wasm32-wasi plugin

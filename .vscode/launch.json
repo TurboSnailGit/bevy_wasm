@@ -7,7 +7,7 @@
         {
             "args": [],
             "console": "integratedTerminal",
-            "cwd": "G:/Github/turbo_bevy_wasm/examples/simple/simple",
+            "cwd": "${workspaceFolder}/examples/simple/simple",
             "environment": [],
             "name": "Simple",
             "preLaunchTask": "build: simple",

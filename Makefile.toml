@@ -24,6 +24,11 @@ script = '''
 cp "target/wasm32-wasi/release-wasm/deps/simple_mod.wasm", "examples/simple/simple/assets/simple_mod.wasm"
 '''
 
+[tasks.build-simple]
+command = "cargo"
+args = ["build", "--bin", "simple"]
+dependencies = ["simple-mod-wasi", "simple-mod-wasi-copy"]
+
 [tasks.run-simple]
 command = "cargo"
 args = ["run", "--bin", "simple"]
@@ -41,16 +46,35 @@ args = [
     "wasm32-unknown-unknown",
 ]
 
-[tasks.simple-mod-wasm-copy]
+[tasks.simple-wasm-copy]
 script_runner = "@shell"
 script = '''
-cp "target/wasm32-unknown-unknown/release-wasm/simple_mod.wasm", "examples/simple/simple/assets/simple_mod.wasm"
+mkdir "target/simple/assets"
+cp "target/wasm32-unknown-unknown/release-wasm/simple_mod.wasm", "target/simple/assets/simple_mod.wasm"
+cp "examples/simple/assets/favicon.ico", "target/simple/favicon.ico"
+cp "examples/simple/assets/index.html", "target/simple/index.html"
 '''
 
-[tasks.run-simple-wasm]
+[tasks.build-simple-wasm]
 command = "cargo"
-args = ["run", "--bin", "simple", "--target", "wasm32-unknown-unknown"]
-dependencies = ["simple-mod-wasm", "simple-mod-wasm-copy"]
+args = ["build", "--bin", "simple", "--target", "wasm32-unknown-unknown"]
+dependencies = ["simple-mod-wasm", "simple-wasm-copy"]
+
+[tasks.simple-wasm-bindgen]
+command = "wasm-bindgen"
+args = [
+    "--out-dir",
+    "target/simple",
+    "--target",
+    "web",
+    "target/wasm32-unknown-unknown/debug/simple.wasm",
+]
+
+[tasks.run-simple-wasm]
+command = "miniserve"
+args = ["target/simple", "--index", "index.html", "-p", "5349"]
+dependencies = ["build-simple-wasm", "simple-wasm-bindgen"]
+
 
 [tasks.cubes-mod-with-bevy-wasi]
 command = "cargo"
@@ -92,18 +116,6 @@ dependencies = [
     "cubes-mod-wasi-copy",
 ]
 
-[tasks.cubes-mod-with-bevy-wasm]
-command = "cargo"
-args = [
-    "build",
-    "--profile",
-    "release-wasm",
-    "--package",
-    "mod_with_bevy",
-    "--target",
-    "wasm32-unknown-unknown",
-]
-
 [tasks.cubes-mod-without-bevy-wasm]
 command = "cargo"
 args = [
@@ -116,21 +128,51 @@ args = [
     "wasm32-unknown-unknown",
 ]
 
-[tasks.cubes-mod-wasm-copy]
+[tasks.cubes-mod-with-bevy-wasm]
+command = "cargo"
+args = [
+    "build",
+    "--profile",
+    "release-wasm",
+    "--package",
+    "mod_with_bevy",
+    "--target",
+    "wasm32-unknown-unknown",
+]
+
+[tasks.cubes-wasm-copy]
 script_runner = "@shell"
 script = '''
-cp "target/wasm32-unknown-unknown/release-wasm/deps/mod_with_bevy.wasm", "examples/cubes/cubes/assets/mod_with_bevy.wasm"
-cp "target/wasm32-unknown-unknown/release-wasm/deps/mod_without_bevy.wasm", "examples/cubes/cubes/assets/mod_without_bevy.wasm"
+mkdir "target/cubes/assets"
+cp "target/wasm32-unknown-unknown/release-wasm/mod_with_bevy.wasm", "target/cubes/assets/mod_with_bevy.wasm"
+cp "target/wasm32-unknown-unknown/release-wasm/mod_without_bevy.wasm", "target/cubes/assets/mod_without_bevy.wasm"
+cp "examples/cubes/assets/favicon.ico", "target/cubes/favicon.ico"
+cp "examples/cubes/assets/index.html", "target/cubes/index.html"
 '''
 
-[tasks.run-cubes-wasm]
+[tasks.build-cubes-wasm]
 command = "cargo"
-args = ["run", "--bin", "cubes", "--target", "wasm32-unknown-unknown"]
+args = ["build", "--bin", "cubes", "--target", "wasm32-unknown-unknown"]
 dependencies = [
     "cubes-mod-with-bevy-wasm",
     "cubes-mod-without-bevy-wasm",
-    "cubes-mod-wasm-copy",
+    "cubes-wasm-copy",
 ]
+
+[tasks.cubes-wasm-bindgen]
+command = "wasm-bindgen"
+args = [
+    "--out-dir",
+    "target/cubes",
+    "--target",
+    "web",
+    "target/wasm32-unknown-unknown/debug/cubes.wasm",
+]
+
+[tasks.run-cubes-wasm]
+command = "miniserve"
+args = ["target/cubes", "--index", "index.html", "-p", "5350"]
+dependencies = ["build-cubes-wasm", "cubes-wasm-bindgen"]
 
 [tasks.shared-resources-mod-wasi]
 command = "cargo"
@@ -167,19 +209,37 @@ args = [
     "wasm32-unknown-unknown",
 ]
 
-[tasks.shared-resources-mod-wasm-copy]
+[tasks.shared-resources-wasm-copy]
 script_runner = "@shell"
 script = '''
-cp "target/wasm32-unknown-unknown/release-wasm/shared_resources_mod.wasm", "examples/shared_resources/shared_resources/assets/shared_resources_mod.wasm"
+mkdir "target/shared_resources/assets"
+cp "target/wasm32-unknown-unknown/release-wasm/shared_resources_mod.wasm", "target/shared_resources/assets/shared_resources_mod.wasm"
+cp "examples/shared_resources/assets/favicon.ico", "target/shared_resources/favicon.ico"
+cp "examples/shared_resources/assets/index.html", "target/shared_resources/index.html"
 '''
 
-[tasks.run-shared-resources-wasm]
+[tasks.build-shared-resources-wasm]
 command = "cargo"
 args = [
-    "run",
+    "build",
     "--bin",
     "shared_resources",
     "--target",
     "wasm32-unknown-unknown",
 ]
-dependencies = ["shared-resources-mod-wasm", "shared-resources-mod-wasm-copy"]
+dependencies = ["shared-resources-mod-wasm", "shared-resources-wasm-copy"]
+
+[tasks.shared-resources-wasm-bindgen]
+command = "wasm-bindgen"
+args = [
+    "--out-dir",
+    "target/shared_resources",
+    "--target",
+    "web",
+    "target/wasm32-unknown-unknown/debug/shared_resources.wasm",
+]
+
+[tasks.run-shared-resources-wasm]
+command = "miniserve"
+args = ["target/shared_resources", "--index", "index.html", "-p", "5351"]
+dependencies = ["build-shared-resources-wasm", "shared-resources-wasm-bindgen"]
