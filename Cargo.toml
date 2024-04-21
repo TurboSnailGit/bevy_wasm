@@ -29,15 +29,22 @@ shared_resources_protocol = { path = "examples/shared_resources/shared_resources
 
 # External dependencies
 anyhow = "1.0"
-bevy = { version = "0.13.2", features = [
+bevy = { version = "0.13.2", default-features = false, features = [
   "bevy_asset",
-], default-features = false }
-bevy_app = { version = "0.13.2" }
-bevy_derive = { version = "0.13.2" }
-bevy_ecs = "0.13.2"
-bevy_math = { version = "0.13.2" }
-bevy_reflect = { version = "0.13.2" }
-bevy_transform = { version = "0.13.2", features = ["serialize"] }
+  "bevy_gilrs",
+  "bevy_scene",
+  "bevy_winit",
+  "bevy_core_pipeline",
+  "bevy_pbr",
+  "bevy_gltf",
+  "bevy_render",
+  "bevy_text",
+  "bevy_ui",
+  "png",
+  "bevy_gizmos",
+  "tonemapping_luts",
+  "default_font",
+] }
 bincode = "1.3"
 colored = "2.1"
 getrandom = "0.2.12"

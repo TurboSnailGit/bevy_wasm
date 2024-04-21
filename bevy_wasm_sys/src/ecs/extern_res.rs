@@ -6,9 +6,9 @@ use std::fmt::Debug;
 use std::marker::PhantomData;
 use std::ops::Deref;
 
-use bevy_ecs::prelude::*;
-use bevy_ecs::system::SystemParam;
-use bevy_reflect::TypePath;
+use bevy::ecs::prelude::*;
+use bevy::ecs::system::SystemParam;
+use bevy::reflect::TypePath;
 use bevy_wasm_sys_core::error;
 use serde::de::DeserializeOwned;
 use serde::Serialize;
@@ -121,7 +121,7 @@ pub struct ExternResources {
 }
 
 impl Debug for ExternResources {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let mut debug = f.debug_map();
         for type_id in self.resources.keys() {
             debug.entry(&type_id, &());
@@ -170,7 +170,7 @@ pub struct ExternRes<'w, 's, T: Resource + Serialize + DeserializeOwned> {
 }
 
 impl<'w, 's, T: Debug + Resource + Serialize + DeserializeOwned> Debug for ExternRes<'w, 's, T> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         self.deref().fmt(f)
     }
 }

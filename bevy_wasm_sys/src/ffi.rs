@@ -4,7 +4,7 @@
 
 use std::ffi::c_void;
 
-use bevy_app::App;
+use bevy::app::App;
 
 #[link(wasm_import_module = "host")]
 extern "C" {

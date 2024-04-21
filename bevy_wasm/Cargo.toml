@@ -11,8 +11,8 @@ version = "0.13.2"
 
 [dependencies]
 anyhow.workspace = true
-bevy_wasm_shared.workspace = true
 bevy.workspace = true
+bevy_wasm_shared.workspace = true
 bincode.workspace = true
 colored.workspace = true
 serde.workspace = true

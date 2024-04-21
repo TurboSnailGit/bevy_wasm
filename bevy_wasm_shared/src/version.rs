@@ -20,7 +20,7 @@ pub struct Version {
 
 impl Version {
     /// Convert the Version into a u64.
-    pub fn to_u64(&self) -> u64 {
+    pub fn to_u64(self) -> u64 {
         let mut result: u64 = 0;
         result |= self.name_hash as u64;
         result |= (self.major as u64) << 16;

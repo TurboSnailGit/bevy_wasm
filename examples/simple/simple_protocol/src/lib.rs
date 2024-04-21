@@ -1,4 +1,4 @@
-use bevy_ecs::event::Event;
+use bevy::ecs::event::Event;
 use bevy_wasm_shared::prelude::*;
 use serde::{Deserialize, Serialize};
 

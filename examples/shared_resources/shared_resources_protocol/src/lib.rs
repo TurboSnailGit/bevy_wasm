@@ -1,5 +1,5 @@
-use bevy_ecs::prelude::*;
-use bevy_reflect::TypePath;
+use bevy::ecs::prelude::*;
+use bevy::reflect::TypePath;
 use bevy_wasm_shared::prelude::*;
 use serde::{Deserialize, Serialize};
 

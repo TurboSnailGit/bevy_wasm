@@ -6,6 +6,6 @@ publish = false
 version = "123.456.789"
 
 [dependencies]
-bevy_ecs.workspace = true
+bevy.workspace = true
 bevy_wasm_shared.workspace = true
 serde = { version = "1.0", features = ["derive"] }

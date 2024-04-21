@@ -2,10 +2,10 @@
 
 use std::ffi::c_void;
 
-use bevy_app::{App, Plugin, Update};
-use bevy_ecs::event::Event;
-use bevy_ecs::prelude::{EventReader, EventWriter};
-use bevy_ecs::system::ResMut;
+use bevy::app::{App, Plugin, Update};
+use bevy::ecs::event::Event;
+use bevy::ecs::prelude::{EventReader, EventWriter};
+use bevy::ecs::system::ResMut;
 use bevy_wasm_shared::prelude::*;
 use bevy_wasm_sys_core::events::{get_next_event, send_event};
 use bevy_wasm_sys_core::{error, info};

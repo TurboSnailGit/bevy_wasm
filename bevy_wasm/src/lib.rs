@@ -1,3 +1,5 @@
+//! THIS LIB WAS NOT SUPPORTED ANYMORE, SO IT HAS BEEN INTERNALIZED.
+//!
 //! Mod Bevy games with WebAssembly
 //!
 //! See [examples/cubes](https://github.com/BrandonDyer64/bevy_wasm/tree/main/examples/cubes)
@@ -7,8 +9,11 @@
 
 #![deny(missing_docs)]
 
-use bevy::{ecs::event::Event, prelude::Resource, reflect::TypePath};
-use serde::{de::DeserializeOwned, Serialize};
+use bevy::ecs::event::Event;
+use bevy::prelude::Resource;
+use bevy::reflect::TypePath;
+use serde::de::DeserializeOwned;
+use serde::Serialize;
 
 pub mod components;
 mod mod_state;
@@ -35,6 +40,9 @@ impl<T> SharedResource for T where T: Resource + Serialize + DeserializeOwned + 
 
 /// Convinience exports
 pub mod prelude {
-    pub use crate::{components::*, plugin::WasmPlugin, Message};
     pub use bevy_wasm_shared::prelude::*;
+
+    pub use crate::components::*;
+    pub use crate::plugin::WasmPlugin;
+    pub use crate::Message;
 }
