@@ -33,27 +33,27 @@ extern "C" {
 
     // getrandom
     // Todo: Transform this into a macro
-    fn __wbg_buffer_b914fb8b50ebbc3e(v: i32) -> i32;
-    fn __wbg_call_3f093dd26d5569f8(x: i32, y: i32) -> i32;
-    fn __wbg_call_67f2111acd2dfdb6(x: i32, y: i32, z: i32) -> i32;
-    fn __wbg_crypto_d05b68a3572bb8ca(v: i32) -> i32;
-    fn __wbg_getRandomValues_7e42b4fb8779dc6d(x: i32, y: i32);
-    fn __wbg_global_f56b013ed9bcf359() -> i32;
-    fn __wbg_globalThis_622105db80c1457d() -> i32;
-    fn __wbg_msCrypto_10fc94afee92bd76(v: i32) -> i32;
-    fn __wbg_new_b1f2d6842d615181(v: i32) -> i32;
-    fn __wbg_newnoargs_cfecb3965268594c(x: i32, y: i32) -> i32;
-    fn __wbg_newwithbyteoffsetandlength_0de9ee56e9f6ee6e(x: i32, y: i32, z: i32) -> i32;
-    fn __wbg_newwithlength_0d03cef43b68a530(v: i32) -> i32;
-    fn __wbg_node_43b1089f407e4ec2(v: i32) -> i32;
-    fn __wbg_process_b02b3570280d0366(v: i32) -> i32;
-    fn __wbg_randomFillSync_b70ccbdf4926a99d(x: i32, y: i32);
-    fn __wbg_require_9a7e0f667ead4995() -> i32;
-    fn __wbg_self_05040bd9523805b9() -> i32;
-    fn __wbg_set_7d988c98e6ced92d(x: i32, y: i32, z: i32) -> i32;
-    fn __wbg_subarray_adc418253d76e2f1(x: i32, y: i32, z: i32) -> i32;
-    fn __wbg_versions_c1cb42213cedf0f5(v: i32) -> i32;
-    fn __wbg_window_adc720039f2cb14f() -> i32;
+    fn __wbg_buffer_12d079cc21e14bdb(v: i32) -> i32;
+    fn __wbg_call_27c0f87801dedf93(x: i32, y: i32) -> i32;
+    fn __wbg_call_b3ca7c6051f9bec1(x: i32, y: i32, z: i32) -> i32;
+    fn __wbg_crypto_566d7465cdbb6b7a(v: i32) -> i32;
+    fn __wbg_getRandomValues_260cc23a41afad9a(x: i32, y: i32);
+    fn __wbg_global_207b558942527489() -> i32;
+    fn __wbg_globalThis_d1e6af4856ba331b() -> i32;
+    fn __wbg_msCrypto_0b84745e9245cdf6(v: i32) -> i32;
+    fn __wbg_new_63b92bc8671ed464(v: i32) -> i32;
+    fn __wbg_newnoargs_e258087cd0daa0ea(x: i32, y: i32) -> i32;
+    fn __wbg_newwithbyteoffsetandlength_aa4a17c33a06e5cb(x: i32, y: i32, z: i32) -> i32;
+    fn __wbg_newwithlength_e9b4878cebadb3d3(v: i32) -> i32;
+    fn __wbg_node_caaf83d002149bd5(v: i32) -> i32;
+    fn __wbg_process_dc09a8c7d59982f6(v: i32) -> i32;
+    fn __wbg_randomFillSync_290977693942bf03(x: i32, y: i32);
+    fn __wbg_require_94a9da52636aacbf() -> i32;
+    fn __wbg_self_ce0dbfc45cf2f5be() -> i32;
+    fn __wbg_set_a47bac70306a19a7(x: i32, y: i32, z: i32) -> i32;
+    fn __wbg_subarray_a1f73cd4b5b42fe1(x: i32, y: i32, z: i32) -> i32;
+    fn __wbg_versions_d98c6400c6ca2bd8(v: i32) -> i32;
+    fn __wbg_window_c6fb939a7f436783() -> i32;
 }
 
 #[allow(clippy::redundant_clone)]
@@ -269,173 +269,173 @@ pub fn build_linker(
 
     // getrandom stuff
     // https://github.com/rust-random/getrandom/blob/5f0701faba5b83ebf144af9973582904f60849b7/src/js.rs#L115
-    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_buffer_b914fb8b50ebbc3e", {
+    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_buffer_12d079cc21e14bdb", {
         move |v| {
-            let ret = unsafe { __wbg_buffer_b914fb8b50ebbc3e(v) };
-            info!("__wbg_buffer_b914fb8b50ebbc3e: {v}, ret {ret}");
+            let ret = unsafe { __wbg_buffer_12d079cc21e14bdb(v) };
+            info!("__wbg_buffer_12d079cc21e14bdb: {v}, ret {ret}");
             ret
         }
     });
 
     link::<dyn FnMut(i32, i32, i32) -> i32>(
         &wbp,
-        "__wbg_newwithbyteoffsetandlength_0de9ee56e9f6ee6e",
+        "__wbg_newwithbyteoffsetandlength_aa4a17c33a06e5cb",
         {
             move |x, y, z| {
-                let ret = unsafe { __wbg_newwithbyteoffsetandlength_0de9ee56e9f6ee6e(x, y, z) };
+                let ret = unsafe { __wbg_newwithbyteoffsetandlength_aa4a17c33a06e5cb(x, y, z) };
                 info!(
-                    "__wbg_newwithbyteoffsetandlength_0de9ee56e9f6ee6e: {x}, {y}, {z}, ret {ret}"
+                    "__wbg_newwithbyteoffsetandlength_aa4a17c33a06e5cb: {x}, {y}, {z}, ret {ret}"
                 );
                 ret
             }
         },
     );
 
-    link::<dyn FnMut(i32, i32)>(&wbp, "__wbg_randomFillSync_b70ccbdf4926a99d", {
+    link::<dyn FnMut(i32, i32)>(&wbp, "__wbg_randomFillSync_290977693942bf03", {
         move |x, y| {
-            info!("__wbg_randomFillSync_b70ccbdf4926a99d: {x}, {y}");
-            unsafe { __wbg_randomFillSync_b70ccbdf4926a99d(x, y) };
+            info!("__wbg_randomFillSync_290977693942bf03: {x}, {y}");
+            unsafe { __wbg_randomFillSync_290977693942bf03(x, y) };
         }
     });
 
-    link::<dyn FnMut(i32, i32, i32) -> i32>(&wbp, "__wbg_subarray_adc418253d76e2f1", {
+    link::<dyn FnMut(i32, i32, i32) -> i32>(&wbp, "__wbg_subarray_a1f73cd4b5b42fe1", {
         move |x, y, z| {
-            let ret = unsafe { __wbg_subarray_adc418253d76e2f1(x, y, z) };
-            info!("__wbg_subarray_adc418253d76e2f1: {x}, {y}, {z}, ret {ret}");
+            let ret = unsafe { __wbg_subarray_a1f73cd4b5b42fe1(x, y, z) };
+            info!("__wbg_subarray_a1f73cd4b5b42fe1: {x}, {y}, {z}, ret {ret}");
             ret
         }
     });
 
-    link::<dyn FnMut(i32, i32)>(&wbp, "__wbg_getRandomValues_7e42b4fb8779dc6d", {
+    link::<dyn FnMut(i32, i32)>(&wbp, "__wbg_getRandomValues_260cc23a41afad9a", {
         move |x, y| {
-            info!("__wbg_getRandomValues_7e42b4fb8779dc6d: {x}, {y}");
-            unsafe { __wbg_getRandomValues_7e42b4fb8779dc6d(x, y) };
+            info!("__wbg_getRandomValues_260cc23a41afad9a: {x}, {y}");
+            unsafe { __wbg_getRandomValues_260cc23a41afad9a(x, y) };
         }
     });
 
-    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_new_b1f2d6842d615181", {
+    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_new_63b92bc8671ed464", {
         move |v| {
-            let ret = unsafe { __wbg_new_b1f2d6842d615181(v) };
-            info!("__wbg_new_b1f2d6842d615181: {v}, ret {ret}");
+            let ret = unsafe { __wbg_new_63b92bc8671ed464(v) };
+            info!("__wbg_new_63b92bc8671ed464: {v}, ret {ret}");
             ret
         }
     });
 
-    link::<dyn FnMut(i32, i32, i32)>(&wbp, "__wbg_set_7d988c98e6ced92d", {
+    link::<dyn FnMut(i32, i32, i32)>(&wbp, "__wbg_set_a47bac70306a19a7", {
         move |x, y, z| {
-            info!("__wbg_set_7d988c98e6ced92d: {x}, {y}, {z}");
-            unsafe { __wbg_set_7d988c98e6ced92d(x, y, z) };
+            info!("__wbg_set_a47bac70306a19a7: {x}, {y}, {z}");
+            unsafe { __wbg_set_a47bac70306a19a7(x, y, z) };
         }
     });
 
-    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_crypto_d05b68a3572bb8ca", {
+    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_crypto_566d7465cdbb6b7a", {
         move |v| {
-            let ret = unsafe { __wbg_crypto_d05b68a3572bb8ca(v) };
-            info!("__wbg_crypto_d05b68a3572bb8ca: {v}, ret {ret}");
+            let ret = unsafe { __wbg_crypto_566d7465cdbb6b7a(v) };
+            info!("__wbg_crypto_566d7465cdbb6b7a: {v}, ret {ret}");
             ret
         }
     });
 
-    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_process_b02b3570280d0366", {
+    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_process_dc09a8c7d59982f6", {
         move |v| {
-            let ret = unsafe { __wbg_process_b02b3570280d0366(v) };
-            info!("__wbg_process_b02b3570280d0366: {v}, ret {ret}");
+            let ret = unsafe { __wbg_process_dc09a8c7d59982f6(v) };
+            info!("__wbg_process_dc09a8c7d59982f6: {v}, ret {ret}");
             ret
         }
     });
 
-    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_versions_c1cb42213cedf0f5", {
+    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_versions_d98c6400c6ca2bd8", {
         move |v| {
-            let ret = unsafe { __wbg_versions_c1cb42213cedf0f5(v) };
-            info!("__wbg_versions_c1cb42213cedf0f5: {v}, ret {ret}");
+            let ret = unsafe { __wbg_versions_d98c6400c6ca2bd8(v) };
+            info!("__wbg_versions_d98c6400c6ca2bd8: {v}, ret {ret}");
             ret
         }
     });
 
-    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_node_43b1089f407e4ec2", {
+    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_node_caaf83d002149bd5", {
         move |v| {
-            let ret = unsafe { __wbg_node_43b1089f407e4ec2(v) };
-            info!("__wbg_node_43b1089f407e4ec2: {v}, ret {ret}");
+            let ret = unsafe { __wbg_node_caaf83d002149bd5(v) };
+            info!("__wbg_node_caaf83d002149bd5: {v}, ret {ret}");
             ret
         }
     });
 
-    link::<dyn FnMut() -> i32>(&wbp, "__wbg_require_9a7e0f667ead4995", {
+    link::<dyn FnMut() -> i32>(&wbp, "__wbg_require_94a9da52636aacbf", {
         move || {
-            let ret = unsafe { __wbg_require_9a7e0f667ead4995() };
-            info!("__wbg_require_9a7e0f667ead4995: ret {ret}");
+            let ret = unsafe { __wbg_require_94a9da52636aacbf() };
+            info!("__wbg_require_94a9da52636aacbf: ret {ret}");
             ret
         }
     });
 
-    link::<dyn FnMut(i32, i32, i32) -> i32>(&wbp, "__wbg_call_67f2111acd2dfdb6", {
+    link::<dyn FnMut(i32, i32, i32) -> i32>(&wbp, "__wbg_call_b3ca7c6051f9bec1", {
         move |x, y, z| {
-            let ret = unsafe { __wbg_call_67f2111acd2dfdb6(x, y, z) };
-            info!("__wbg_call_67f2111acd2dfdb6: {x}, {y}, {z}, ret {ret}");
+            let ret = unsafe { __wbg_call_b3ca7c6051f9bec1(x, y, z) };
+            info!("__wbg_call_b3ca7c6051f9bec1: {x}, {y}, {z}, ret {ret}");
             ret
         }
     });
 
-    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_msCrypto_10fc94afee92bd76", {
+    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_msCrypto_0b84745e9245cdf6", {
         move |v| {
-            let ret = unsafe { __wbg_msCrypto_10fc94afee92bd76(v) };
-            info!("__wbg_msCrypto_10fc94afee92bd76: {v}, ret {ret}");
+            let ret = unsafe { __wbg_msCrypto_0b84745e9245cdf6(v) };
+            info!("__wbg_msCrypto_0b84745e9245cdf6: {v}, ret {ret}");
             ret
         }
     });
 
-    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_newwithlength_0d03cef43b68a530", {
+    link::<dyn FnMut(i32) -> i32>(&wbp, "__wbg_newwithlength_e9b4878cebadb3d3", {
         move |v| {
-            let ret = unsafe { __wbg_newwithlength_0d03cef43b68a530(v) };
-            info!("__wbg_newwithlength_0d03cef43b68a530: {v}, ret {ret}");
+            let ret = unsafe { __wbg_newwithlength_e9b4878cebadb3d3(v) };
+            info!("__wbg_newwithlength_e9b4878cebadb3d3: {v}, ret {ret}");
             ret
         }
     });
 
-    link::<dyn FnMut() -> i32>(&wbp, "__wbg_self_05040bd9523805b9", {
+    link::<dyn FnMut() -> i32>(&wbp, "__wbg_self_ce0dbfc45cf2f5be", {
         move || {
-            let ret = unsafe { __wbg_self_05040bd9523805b9() };
-            info!("__wbg_self_05040bd9523805b9: ret {ret}");
+            let ret = unsafe { __wbg_self_ce0dbfc45cf2f5be() };
+            info!("__wbg_self_ce0dbfc45cf2f5be: ret {ret}");
             ret
         }
     });
 
-    link::<dyn FnMut() -> i32>(&wbp, "__wbg_window_adc720039f2cb14f", {
+    link::<dyn FnMut() -> i32>(&wbp, "__wbg_window_c6fb939a7f436783", {
         move || {
-            let ret = unsafe { __wbg_window_adc720039f2cb14f() };
-            info!("__wbg_window_adc720039f2cb14f: ret {ret}");
+            let ret = unsafe { __wbg_window_c6fb939a7f436783() };
+            info!("__wbg_window_c6fb939a7f436783: ret {ret}");
             ret
         }
     });
 
-    link::<dyn FnMut() -> i32>(&wbp, "__wbg_globalThis_622105db80c1457d", {
+    link::<dyn FnMut() -> i32>(&wbp, "__wbg_globalThis_d1e6af4856ba331b", {
         move || {
-            let ret = unsafe { __wbg_globalThis_622105db80c1457d() };
-            info!("__wbg_globalThis_622105db80c1457d: ret {ret}");
+            let ret = unsafe { __wbg_globalThis_d1e6af4856ba331b() };
+            info!("__wbg_globalThis_d1e6af4856ba331b: ret {ret}");
             ret
         }
     });
 
-    link::<dyn FnMut() -> i32>(&wbp, "__wbg_global_f56b013ed9bcf359", {
+    link::<dyn FnMut() -> i32>(&wbp, "__wbg_global_207b558942527489", {
         move || {
-            let ret = unsafe { __wbg_global_f56b013ed9bcf359() };
-            info!("__wbg_global_f56b013ed9bcf359: ret {ret}");
+            let ret = unsafe { __wbg_global_207b558942527489() };
+            info!("__wbg_global_207b558942527489: ret {ret}");
             ret
         }
     });
 
-    link::<dyn FnMut(i32, i32) -> i32>(&wbp, "__wbg_newnoargs_cfecb3965268594c", {
+    link::<dyn FnMut(i32, i32) -> i32>(&wbp, "__wbg_newnoargs_e258087cd0daa0ea", {
         move |x, y| {
-            let ret = unsafe { __wbg_newnoargs_cfecb3965268594c(x, y) };
-            info!("__wbg_newnoargs_cfecb3965268594c: {x}, {y}, ret {ret}");
+            let ret = unsafe { __wbg_newnoargs_e258087cd0daa0ea(x, y) };
+            info!("__wbg_newnoargs_e258087cd0daa0ea: {x}, {y}, ret {ret}");
             ret
         }
     });
 
-    link::<dyn FnMut(i32, i32) -> i32>(&wbp, "__wbg_call_3f093dd26d5569f8", {
+    link::<dyn FnMut(i32, i32) -> i32>(&wbp, "__wbg_call_27c0f87801dedf93", {
         move |x, y| {
-            let ret = unsafe { __wbg_call_3f093dd26d5569f8(x, y) };
-            info!("__wbg_call_3f093dd26d5569f8: {x}, {y}, ret {ret}");
+            let ret = unsafe { __wbg_call_27c0f87801dedf93(x, y) };
+            info!("__wbg_call_27c0f87801dedf93: {x}, {y}, ret {ret}");
             ret
         }
     });
