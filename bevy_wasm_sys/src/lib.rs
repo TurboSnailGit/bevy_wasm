@@ -1,6 +1,3 @@
-//! THIS LIB WAS NOT SUPPORTED ANYMORE, SO IT HAS BEEN INTERNALIZED.
-//!
-//!
 //!Build mods for Bevy with Bevy.
 //!
 //!This is the sys crate, intended to be used inside of mods.

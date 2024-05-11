@@ -1,5 +1,5 @@
 use std::collections::VecDeque;
-use std::sync::{Arc, RwLock};
+use std::sync::Arc;
 
 use anyhow::Result;
 use bevy::prelude::{Component, Resource};
@@ -7,6 +7,7 @@ use bevy::utils::{HashMap, Instant};
 use bevy_wasm_shared::version::Version;
 use js_sys::WebAssembly::{self, Instance};
 use js_sys::{Function, Reflect};
+use parking_lot::RwLock;
 use wasm_bindgen::prelude::Closure;
 use wasm_bindgen::{JsCast, JsValue};
 use web_sys::console;
@@ -53,8 +54,8 @@ impl WasmRuntime {
                 let build_app: Function = Reflect::get(exports.as_ref(), &"build_app".into())
                     .and_then(|x| x.dyn_into())
                     .expect("build_app export wasn't a function");
-                *instance.write().unwrap() = Some(instance_value);
-                *memory.write().unwrap() = Some(memory_value);
+                *instance.write() = Some(instance_value);
+                *memory.write() = Some(memory_value);
                 build_app.call0(&JsValue::undefined()).unwrap();
             }
         });
@@ -86,30 +87,26 @@ unsafe impl Sync for WasmInstance {}
 
 impl WasmInstance {
     pub fn tick(&mut self, events_in: &[Arc<[u8]>]) -> Result<Vec<Box<[u8]>>> {
-        let Some(instance) = self.instance.read().unwrap().clone() else {
+        let Some(instance) = self.instance.read().clone() else {
             return Ok(Vec::new());
         };
         for event in events_in.iter() {
-            self.mod_state
-                .write()
-                .unwrap()
-                .events_in
-                .push_back(event.clone());
+            self.mod_state.write().events_in.push_back(event.clone());
         }
 
-        let app_ptr = self.mod_state.read().unwrap().app_ptr;
+        let app_ptr = self.mod_state.read().app_ptr;
 
         let exports = instance.exports();
 
         let update: Function = Reflect::get(exports.as_ref(), &"update".into())
             .and_then(|x| x.dyn_into())
-            .expect("build_app export wasn't a function");
+            .expect("update export wasn't a function");
         match update.call1(&JsValue::undefined(), &JsValue::from_f64(app_ptr as f64)) {
             Ok(_) => {}
             Err(e) => console::error_1(&e),
         }
 
-        let serialized_events_out = std::mem::take(&mut self.mod_state.write().unwrap().events_out);
+        let serialized_events_out = std::mem::take(&mut self.mod_state.write().events_out);
 
         Ok(serialized_events_out)
     }
@@ -117,7 +114,6 @@ impl WasmInstance {
     pub fn update_resource_value<T: SharedResource>(&mut self, bytes: Arc<[u8]>) {
         self.mod_state
             .write()
-            .unwrap()
             .shared_resource_values
             .insert(T::type_path(), bytes);
     }

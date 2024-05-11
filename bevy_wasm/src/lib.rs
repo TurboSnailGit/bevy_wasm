@@ -1,5 +1,3 @@
-//! THIS LIB WAS NOT SUPPORTED ANYMORE, SO IT HAS BEEN INTERNALIZED.
-//!
 //! Mod Bevy games with WebAssembly
 //!
 //! See [examples/cubes](https://github.com/BrandonDyer64/bevy_wasm/tree/main/examples/cubes)

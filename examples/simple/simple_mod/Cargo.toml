@@ -14,3 +14,7 @@ bevy.workspace = true
 bevy_wasm_sys.workspace = true
 serde.workspace = true
 simple_protocol.workspace = true
+
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+web-sys.workspace = true

@@ -1,8 +1,10 @@
-use std::{ops::Deref, sync::Arc};
+use std::ops::Deref;
+use std::sync::Arc;
 
 use bevy::prelude::*;
 
-use crate::{runtime::WasmInstance, SharedResource};
+use crate::runtime::WasmInstance;
+use crate::SharedResource;
 
 pub fn update_shared_resource<T: SharedResource>(
     res: Res<T>,

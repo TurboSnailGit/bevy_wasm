@@ -88,7 +88,7 @@ impl Time {
     ///
     /// ```
     /// # use bevy_time::prelude::*;
-    /// # use bevy::ecs::prelude::*;
+    /// # use bevy_ecs::prelude::*;
     /// # use bevy_utils::Duration;
     /// # fn main () {
     /// #     test_health_system();

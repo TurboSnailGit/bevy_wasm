@@ -6,6 +6,6 @@ publish = false
 version = "0.1.0"
 
 [dependencies]
-bevy = "0.13"
+bevy.workspace = true
 bevy_wasm.workspace = true
 simple_protocol.workspace = true
